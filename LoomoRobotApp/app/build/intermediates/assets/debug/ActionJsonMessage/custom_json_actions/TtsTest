@@ -1,0 +1,28 @@
+{
+  "section_gif": [
+    {
+      "section_name": "app_halo_gif",
+      "section_info": {
+        "duration": 8070,
+        "source": "apple_halo.gif"
+      }
+    }
+  ],
+  "process": {
+    "gif": [
+      {
+        "delay_time": 0,
+        "section_ready": "app_halo_gif"
+      }
+    ],
+    "tts":[
+        {
+            "delay_time": 0,
+            "section_spec": {
+              "duration": 8000,
+              "source": "I will always remember the day we met,i admit I’m not the best photographer in the world,but I’m the only photographer i know to take a photo with head. You can check the photo on your phone anytime . "
+            }
+        }
+    ]
+  }
+}
