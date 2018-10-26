@@ -126,18 +126,18 @@ public class TextToSpeechFragment extends RemoteFragment {
 
         @Override
         protected Void doInBackground(Void...arg0){
-            
+
             try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist", "roboj", "robotjournalist");
 
-                //Statement stmt = con.createStatement();
+                Statement stmt = con.createStatement();
 
-                //ResultSet rs = stmt.executeQuery("SELECT * FROM tester WHERE testerID = 1");
-                //rs.next();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM tester WHERE testerID = 1");
+                rs.next();
 
                 //Log.d("mySQLCreationSuccess","successfully connected to database");
-                logMessage = "SQL Connect";
+                logMessage = rs.getString(2);
 
             } catch (Exception e) {
                 e.printStackTrace();
