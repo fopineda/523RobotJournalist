@@ -1,5 +1,8 @@
 package de.iteratec.slab.segway.remote.phone.fragment;
 
+
+import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +13,8 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 
 import com.segway.robot.mobile.sdk.connectivity.StringMessage;
+
+import java.sql.*;
 
 import de.iteratec.slab.segway.remote.phone.R;
 import de.iteratec.slab.segway.remote.phone.fragment.base.RemoteFragment;
@@ -22,6 +27,28 @@ public class TextToSpeechFragment extends RemoteFragment {
     private EditText speechInput;
 
     private SeekBar volumeSeekBar;
+
+    static final String databaseURL = "jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist";
+    static final String username = "roboj";
+    static final String password = "robotjournalist";
+
+    public String getConnection(){
+        String logMessage;
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(databaseURL, username, password);
+            logMessage = "Connection Successful";
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            logMessage = "Connection Unsuccessful";
+        }
+
+        return logMessage;
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +73,10 @@ public class TextToSpeechFragment extends RemoteFragment {
     private View.OnClickListener nButtonClickListener = new View.OnClickListener() {
 
         public void onClick(View view) {
+            //String message = getConnection();
+            //Log.v("SQLStatus", message);
+            //new MyTask().execute();
+            //String logMessage[] = {new MyTask().getLogMessage()};
             String[] message = {"broadcast", "start"};
             getLoomoService().send(CommandStringFactory.getStringMessage(message));
         }
@@ -54,7 +85,10 @@ public class TextToSpeechFragment extends RemoteFragment {
     private View.OnClickListener mButtonClickListener = new View.OnClickListener() {
 
         public void onClick(View view) {
-            String speak = speechInput.getText().toString().trim();
+            String message = getConnection();
+
+            String speak = message;
+            //String speak = speechInput.getText().toString().trim();
             Log.i(TAG, "Trying to say: " + speak);
             getLoomoService().sendSound(speak);
         }
@@ -88,4 +122,51 @@ public class TextToSpeechFragment extends RemoteFragment {
         }
     };
 
+
+
+    /*private class MyTask extends AsyncTask<Void, Void, Void>{
+
+        String logMessage;
+
+        @Override
+        protected Void doInBackground(Void...arg0){
+            //final String databaseURL = "jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist";
+            //final String username = "roboj";
+            //final String password = "robotjournalist";
+
+
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist", "roboj", "robotjournalist");
+
+                //Statement stmt = con.createStatement();
+
+                //ResultSet rs = stmt.executeQuery("SELECT * FROM tester WHERE testerID = 1");
+                //rs.next();
+
+                //Log.d("mySQLCreationSuccess","successfully connected to database");
+                logMessage = "SQL Connect";
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                logMessage = "SQL Fail";
+            }
+
+            return null;
+        }
+
+
+        public String getLogMessage(){
+            return logMessage;
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+            Log.v("SQLStatus", logMessage);
+        }
+
+    }*/
 }
+
+
+
