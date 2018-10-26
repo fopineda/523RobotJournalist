@@ -34,15 +34,15 @@ public class TextToSpeechFragment extends RemoteFragment {
 
     public String getConnection(){
         String logMessage;
+        String tryCatch;
 
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(databaseURL, username, password);
-            logMessage = "Connection Successful";
+            new MyTask().execute();
+            logMessage = "Connection successful";
         }
         catch(Exception e){
             e.printStackTrace();
-            logMessage = "Connection Unsuccessful";
+            logMessage = "Execute not working";
         }
 
         return logMessage;
@@ -73,10 +73,6 @@ public class TextToSpeechFragment extends RemoteFragment {
     private View.OnClickListener nButtonClickListener = new View.OnClickListener() {
 
         public void onClick(View view) {
-            //String message = getConnection();
-            //Log.v("SQLStatus", message);
-            //new MyTask().execute();
-            //String logMessage[] = {new MyTask().getLogMessage()};
             String[] message = {"broadcast", "start"};
             getLoomoService().send(CommandStringFactory.getStringMessage(message));
         }
@@ -85,9 +81,9 @@ public class TextToSpeechFragment extends RemoteFragment {
     private View.OnClickListener mButtonClickListener = new View.OnClickListener() {
 
         public void onClick(View view) {
-            String message = getConnection();
+            //String message = getConnection();
 
-            String speak = message;
+            String speak = getConnection();
             //String speak = speechInput.getText().toString().trim();
             Log.i(TAG, "Trying to say: " + speak);
             getLoomoService().sendSound(speak);
@@ -124,17 +120,13 @@ public class TextToSpeechFragment extends RemoteFragment {
 
 
 
-    /*private class MyTask extends AsyncTask<Void, Void, Void>{
+    private class MyTask extends AsyncTask<Void, Void, Void>{
 
         String logMessage;
 
         @Override
         protected Void doInBackground(Void...arg0){
-            //final String databaseURL = "jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist";
-            //final String username = "roboj";
-            //final String password = "robotjournalist";
-
-
+            
             try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist", "roboj", "robotjournalist");
@@ -165,7 +157,7 @@ public class TextToSpeechFragment extends RemoteFragment {
             Log.v("SQLStatus", logMessage);
         }
 
-    }*/
+    }
 }
 
 
