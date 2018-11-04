@@ -31,14 +31,19 @@ public class TextToSpeechFragment extends RemoteFragment {
     static final String databaseURL = "jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist";
     static final String username = "roboj";
     static final String password = "robotjournalist";
+    //String message;
+    String logMessage;
 
     public String getConnection(){
-        String logMessage;
-        String tryCatch;
+        //String logMessage;
 
         try{
             new MyTask().execute();
-            logMessage = "Connection successful";
+            //AsyncTask task = new MyTask();//.execute();
+            //task.execute();
+            //logMessage = "Connection successful";
+            //logMessage = ((MyTask) task).getLogMessage();
+            //ogMessage = logMessage;
         }
         catch(Exception e){
             e.printStackTrace();
@@ -86,7 +91,7 @@ public class TextToSpeechFragment extends RemoteFragment {
             String speak = getConnection();
             //String speak = speechInput.getText().toString().trim();
             Log.i(TAG, "Trying to say: " + speak);
-            getLoomoService().sendSound(speak);
+            //getLoomoService().sendSound(speak);
         }
     };
 
@@ -147,18 +152,16 @@ public class TextToSpeechFragment extends RemoteFragment {
             return null;
         }
 
-
         public String getLogMessage(){
+            //logMessage = "Got Log Message";
             return logMessage;
         }
 
         @Override
         protected void onPostExecute(Void result){
             Log.v("SQLStatus", logMessage);
+            getLoomoService().sendSound(logMessage);
         }
 
     }
 }
-
-
-
