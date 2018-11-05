@@ -3,8 +3,10 @@ package de.iteratec.slab.segway.remote.phone.fragment;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import java.util.concurrent.TimeUnit;
 import android.os.Bundle;
 import android.util.Log;
+import java.util.ArrayList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,8 @@ public class TextToSpeechFragment extends RemoteFragment {
 
     private static final String TAG = "TextToSpeechFragment";
 
-    private EditText speechInput;
+    private EditText userIdInput;
+    private EditText interviewNumberInput;
 
     private SeekBar volumeSeekBar;
 
@@ -59,18 +62,21 @@ public class TextToSpeechFragment extends RemoteFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout =  inflater.inflate(R.layout.fragment_text_to_speech, container, false);
 
-        Button soundTestButton = layout.findViewById(R.id.sound_test);
+        Button soundTestButton = layout.findViewById(R.id.BeginInterview);
         soundTestButton.setOnClickListener(mButtonClickListener);
-        speechInput = layout.findViewById(R.id.speech_input);
+        userIdInput = layout.findViewById(R.id.UserID);
+        interviewNumberInput = layout.findViewById(R.id.InterviewID);
 
-        Button broadcastAudioButton = layout.findViewById(R.id.brodcast_audio);
-        broadcastAudioButton.setOnClickListener(nButtonClickListener);
+        //speechInput = layout.findViewById(R.id.speech_input);
 
-        Button stopBroadcastButton = layout.findViewById(R.id.end_broadcast);
-        stopBroadcastButton.setOnClickListener(rButtonClickListener);
+        //Button broadcastAudioButton = layout.findViewById(R.id.brodcast_audio);
+        //broadcastAudioButton.setOnClickListener(nButtonClickListener);
 
-        volumeSeekBar = layout.findViewById(R.id.volumeSeekBar);
-        volumeSeekBar.setOnSeekBarChangeListener(volumeListener);
+        //Button stopBroadcastButton = layout.findViewById(R.id.end_broadcast);
+        //stopBroadcastButton.setOnClickListener(rButtonClickListener);
+
+        //volumeSeekBar = layout.findViewById(R.id.volumeSeekBar);
+        //volumeSeekBar.setOnSeekBarChangeListener(volumeListener);
 
         return layout;
     }
@@ -91,6 +97,8 @@ public class TextToSpeechFragment extends RemoteFragment {
             String speak = getConnection();
             //String speak = speechInput.getText().toString().trim();
             Log.i(TAG, "Trying to say: " + speak);
+            //Log.i("UserId", userIdInput.getText().toString());
+            //Log.i("InterviewNumber",interviewNumberInput.getText().toString());
             //getLoomoService().sendSound(speak);
         }
     };
@@ -128,6 +136,8 @@ public class TextToSpeechFragment extends RemoteFragment {
     private class MyTask extends AsyncTask<Void, Void, Void>{
 
         String logMessage;
+        ArrayList<String> questionList = new ArrayList<String>();
+
 
         @Override
         protected Void doInBackground(Void...arg0){
@@ -138,11 +148,21 @@ public class TextToSpeechFragment extends RemoteFragment {
 
                 Statement stmt = con.createStatement();
 
-                ResultSet rs = stmt.executeQuery("SELECT * FROM tester WHERE testerID = 1");
+                String userName = userIdInput.getText().toString();
+                String interviewID = interviewNumberInput.getText().toString();
+
+                Log.i("UserId", userName);
+                Log.i("InterviewNumber", interviewID);
+
+                ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM interviewQuestions WHERE interviewNumber = %s AND userID = %s", interviewID, userName));
                 rs.next();
 
                 //Log.d("mySQLCreationSuccess","successfully connected to database");
-                logMessage = rs.getString(2);
+                //logMessage = rs.getString(4);
+                questionList.add(rs.getString(4));
+                questionList.add(rs.getString(5));
+                questionList.add(rs.getString(6));
+                logMessage = "SQL Succeeded";
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -160,7 +180,18 @@ public class TextToSpeechFragment extends RemoteFragment {
         @Override
         protected void onPostExecute(Void result){
             Log.v("SQLStatus", logMessage);
-            getLoomoService().sendSound(logMessage);
+            for(String question : questionList) {
+                getLoomoService().sendSound(question);
+                try
+                {
+                    TimeUnit.SECONDS.sleep(3);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                    Log.v("Sleep Time", "Sleep Failed");
+                }
+            }
         }
 
     }

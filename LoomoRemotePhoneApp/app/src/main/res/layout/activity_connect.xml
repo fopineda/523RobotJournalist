@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/status_layout"
         android:paddingTop="50px"
-        android:text="192.168.107.164" />
+        android:hint="192.168.107.164" />
 
 
     <Button

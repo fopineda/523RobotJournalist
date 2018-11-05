@@ -14,5 +14,8 @@
 
     <string name="head_fragment_mode_button_smooth">Smooth</string>
     <string name="head_fragment_mode_button_orientation">Orientation</string>
+    <string name="enter_interview_id">Enter Interview ID</string>
+    <string name="enter_userid">Enter UserID</string>
+    <string name="begin_interview">Begin Interview</string>
 
 </resources>

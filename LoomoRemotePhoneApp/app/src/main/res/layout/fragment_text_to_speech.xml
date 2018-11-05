@@ -1,38 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/speech_input"
-            android:layout_width="match_parent"
+            android:id="@+id/UserID"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:text="Exterminate" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="61dp"
+            android:hint="@string/enter_userid"/>
 
-
-        <SeekBar
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/InterviewID"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:id="@+id/volumeSeekBar"
-            android:progress="1"/>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="317dp"
+            android:layout_marginTop="61dp"
+            android:hint="@string/enter_interview_id" />
+        <!--<SeekBar-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/volumeSeekBar"-->
+        <!--android:progress="1"/>-->
+
+        <!--<Button-->
+        <!--android:id="@+id/sound_test"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/brodcast_audio"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:text="Send Sound" />-->
+
+        <!--<Button-->
+        <!--android:id="@+id/brodcast_audio"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:text="Play Broadcast" />-->
 
         <Button
-            android:id="@+id/sound_test"
-            android:layout_width="wrap_content"
+            android:id="@+id/BeginInterview"
+            android:layout_width="480dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Send Sound" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="59dp"
+            android:layout_marginBottom="69dp"
+            android:text="@string/begin_interview" />
 
-        <Button
-            android:id="@+id/brodcast_audio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Play Broadcast" />
-
-        <Button
-            android:id="@+id/end_broadcast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Stop Broadcast" />
-
-</LinearLayout>
+</RelativeLayout>
