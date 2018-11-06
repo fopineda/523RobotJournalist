@@ -154,7 +154,7 @@ public class TextToSpeechFragment extends RemoteFragment {
                 Log.i("UserId", userName);
                 Log.i("InterviewNumber", interviewID);
 
-                ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM interviewQuestions WHERE interviewNumber = %s AND userID = %s", interviewID, userName));
+                ResultSet rs = stmt.executeQuery("SELECT * FROM interviewQuestions WHERE interviewNumber = " + interviewID + " AND userID = '" + userName + "'");
                 rs.next();
 
                 //Log.d("mySQLCreationSuccess","successfully connected to database");
@@ -162,6 +162,7 @@ public class TextToSpeechFragment extends RemoteFragment {
                 questionList.add(rs.getString(4));
                 questionList.add(rs.getString(5));
                 questionList.add(rs.getString(6));
+
                 logMessage = "SQL Succeeded";
 
             } catch (Exception e) {
