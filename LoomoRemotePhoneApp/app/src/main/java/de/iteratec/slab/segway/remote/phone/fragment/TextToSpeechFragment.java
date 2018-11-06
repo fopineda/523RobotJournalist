@@ -152,16 +152,21 @@ public class TextToSpeechFragment extends RemoteFragment {
                 String interviewID = interviewNumberInput.getText().toString();
 
                 Log.i("UserId", userName);
-                Log.i("InterviewNumber", interviewID);
+                Log.i("InterviewID", interviewID);
 
-                ResultSet rs = stmt.executeQuery("SELECT * FROM interviewQuestions WHERE interviewNumber = " + interviewID + " AND userID = '" + userName + "'");
-                rs.next();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM interviewQuestions WHERE interviewID = '" + interviewID + "' AND userID = '" + userName + "'");
+                //rs.next();
 
                 //Log.d("mySQLCreationSuccess","successfully connected to database");
                 //logMessage = rs.getString(4);
-                questionList.add(rs.getString(4));
-                questionList.add(rs.getString(5));
-                questionList.add(rs.getString(6));
+                //questionList.add(rs.getString(4));
+                //questionList.add(rs.getString(5));
+                //questionList.add(rs.getString(6));
+
+                while(rs.next())
+                {
+                    questionList.add(rs.getString(4));
+                }
 
                 logMessage = "SQL Succeeded";
 
