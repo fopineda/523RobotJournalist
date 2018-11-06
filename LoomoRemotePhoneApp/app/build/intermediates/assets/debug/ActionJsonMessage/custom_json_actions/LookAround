@@ -1,0 +1,289 @@
+{
+  "interpolator": [
+    {
+      "name": "A",
+      "module": "Interpolators",
+      "value": [
+        0.33,
+        0,
+        0.2,
+        1
+      ]
+    },
+    {
+      "name": "B",
+      "module": "Interpolators",
+      "value": [
+        0.33,
+        0,
+        0.67,
+        1
+      ]
+    },
+    {
+      "name": "C",
+      "module": "Interpolators",
+      "value": [
+        0.5,
+        0,
+        0.5,
+        1
+      ]
+    },
+    {
+      "name": "D",
+      "module": "Interpolators",
+      "value": [
+        0.8,
+        0,
+        0.67,
+        1
+      ]
+    }
+  ],
+  "section_sound": [
+    {
+      "section_name": "lookaroundSound",
+      "section_info": {
+        "duration": 11880,
+        "delay": 0,
+        "source": "lookaround.wav"
+      }
+    }
+  ],
+  "section_gif": [
+    {
+      "section_name": "lookaroundGif",
+      "section_info": {
+        "duration": 11880,
+        "source": "emo_psv_lookaround.gif"
+      }
+    }
+  ],
+  "section_yaw": [
+    {
+      "section_name": "Yaw_Small_ZeroToLeft_1500_B",
+      "section_info": {
+        "duration": 1500,
+        "interpolator_name": "B",
+        "value": [
+          0,
+          -0.174533
+        ]
+      }
+    },
+    {
+      "section_name": "Yaw_Small_LeftToZero_1500_B",
+      "section_info": {
+        "duration": 1500,
+        "interpolator_name": "B",
+        "value": [
+          -0.174533,
+          0
+        ]
+      }
+    },
+    {
+      "section_name": "Yaw_Big_ZeroToRight_1000_C",
+      "section_info": {
+        "duration": 1000,
+        "interpolator_name": "C",
+        "value": [
+          0,
+          0.523599
+        ]
+      }
+    },
+    {
+      "section_name": "Yaw_Big_RightToLeft_1000_C",
+      "section_info": {
+        "duration": 1000,
+        "interpolator_name": "C",
+        "value": [
+          0.523599,
+          -0.523599
+        ]
+      }
+    },
+    {
+      "section_name": "Yaw_Big_LeftToZero_1000_C",
+      "section_info": {
+        "duration": 1000,
+        "interpolator_name": "C",
+        "value": [
+          -0.523599,
+          0
+        ]
+      }
+    }
+  ],
+  "section_pitch": [
+    {
+      "section_name": "Pitch_Small_ZeroToRight_333_B",
+      "section_info": {
+        "duration": 333,
+        "delay": 0,
+        "interpolator_name": "B",
+        "value": [
+          0,
+          0.349066
+        ]
+      }
+    },
+    {
+      "section_name": "Pitch_Small_RightToLeft_333_B",
+      "section_info": {
+        "duration": 333,
+        "delay": 0,
+        "interpolator_name": "B",
+        "value": [
+          0.349066,
+          0.087266
+        ]
+      }
+    },
+    {
+      "section_name": "Pitch_Small_LeftToRight_333_B",
+      "section_info": {
+        "duration": 333,
+        "delay": 0,
+        "interpolator_name": "B",
+        "value": [
+          0.087266,
+          0.349066
+        ]
+      }
+    },
+    {
+      "section_name": "Pitch_Small_RightToLeft_666_B",
+      "section_info": {
+        "duration": 666,
+        "delay": 0,
+        "interpolator_name": "B",
+        "value": [
+          0.349066,
+          0.087266
+        ]
+      }
+    },
+    {
+      "section_name": "Pitch_Small_LeftToRight_1000_C",
+      "section_info": {
+        "duration": 1000,
+        "delay": 0,
+        "interpolator_name": "C",
+        "value": [
+          0.087266,
+          0.349066
+        ]
+      }
+    },
+    {
+      "section_name": "Pitch_Big_LeftToRight_1000_C",
+      "section_info": {
+        "duration": 1000,
+        "delay": 0,
+        "interpolator_name": "C",
+        "value": [
+          0.349066,
+          0.523599
+        ]
+      }
+    },
+    {
+      "section_name": "Pitch_Big_RightToZero_1000_C",
+      "section_info": {
+        "duration": 1000,
+        "delay": 0,
+        "interpolator_name": "C",
+        "value": [
+          0.523599,
+          0
+        ]
+      }
+    }
+  ],
+  "section_base": [],
+  "process": {
+    "sound": [
+      {
+        "delay_time": 0,
+        "section_ready": "lookaroundSound"
+      }
+    ],
+    "gif": [
+      {
+        "delay_time": 0,
+        "section_ready": "lookaroundGif"
+      }
+    ],
+    "yaw": [
+      {
+        "delay_time": 1000,
+        "section_ready": "Yaw_Small_ZeroToLeft_1500_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Yaw_Small_LeftToZero_1500_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Yaw_Big_ZeroToRight_1000_C"
+      },
+      {
+        "delay_time": 1666,
+        "section_ready": "Yaw_Big_RightToLeft_1000_C"
+      },
+      {
+        "delay_time": 1000,
+        "section_ready": "Yaw_Big_LeftToZero_1000_C"
+      }
+    ],
+    "pitch": [
+      {
+        "delay_time": 1000,
+        "section_ready": "Pitch_Small_ZeroToRight_333_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Pitch_Small_RightToLeft_333_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Pitch_Small_LeftToRight_333_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Pitch_Small_RightToLeft_333_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Pitch_Small_LeftToRight_333_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Pitch_Small_RightToLeft_333_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Pitch_Small_LeftToRight_333_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Pitch_Small_RightToLeft_666_B"
+      },
+      {
+        "delay_time": 0,
+        "section_ready": "Pitch_Small_LeftToRight_1000_C"
+      },
+      {
+        "delay_time": 1666,
+        "section_ready": "Pitch_Big_LeftToRight_1000_C"
+      },
+      {
+        "delay_time": 1000,
+        "section_ready": "Pitch_Big_RightToZero_1000_C"
+      }
+    ]
+  }
+}

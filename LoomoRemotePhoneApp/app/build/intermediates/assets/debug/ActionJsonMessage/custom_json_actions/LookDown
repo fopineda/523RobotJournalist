@@ -1,0 +1,88 @@
+{
+  "interpolator": [
+    {
+      "name": "A",
+      "module": "Interpolators",
+      "value": [
+        0.33,
+        0,
+        0.2,
+        1
+      ]
+    },
+    {
+      "name": "B",
+      "module": "Interpolators",
+      "value": [
+        0.33,
+        0,
+        0.67,
+        1
+      ]
+    },
+    {
+      "name": "C",
+      "module": "Interpolators",
+      "value": [
+        0.5,
+        0,
+        0.5,
+        1
+      ]
+    },
+    {
+      "name": "D",
+      "module": "Interpolators",
+      "value": [
+        0.8,
+        0,
+        0.67,
+        1
+      ]
+    }
+  ],
+  "process": {
+    "sound": [
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 5940,
+          "source": "emo_psv_look_fast.wav"
+        }
+      }
+    ],
+    "gif": [
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 5940,
+          "source": "lookdown.gif"
+        }
+      }
+    ],
+    "pitch": [
+      {
+        "delay_time": 1000,
+        "section_spec": {
+          "duration": 1000,
+          "interpolator_name": "A",
+          "value": [
+            0,
+            -0.523599
+          ]
+        }
+      },
+      {
+        "delay_time": 1650,
+        "section_spec": {
+          "duration": 1000,
+          "interpolator_name": "C",
+          "value": [
+            -0.523599,
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.segway.robot:base-connectivity-sdk-0.5.98">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/base-connectivity-sdk-0.5.98.aar/558bfc14a282b1a813a1ce01aecca9e0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/base-connectivity-sdk-0.5.98.aar/558bfc14a282b1a813a1ce01aecca9e0/jars/libs/slf4j-nop-1.7.21.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/base-connectivity-sdk-0.5.98.aar/558bfc14a282b1a813a1ce01aecca9e0/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/base-connectivity-sdk-0.5.98.aar/558bfc14a282b1a813a1ce01aecca9e0/jars/libs/mina-core-2.0.16.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/base-connectivity-sdk-0.5.98.aar/558bfc14a282b1a813a1ce01aecca9e0/jars/libs/slf4j-api-1.7.21.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.segway.robot/base-connectivity-sdk/0.5.98/16b2734cd68567d743072060bef98d6edf44386b/base-connectivity-sdk-0.5.98-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

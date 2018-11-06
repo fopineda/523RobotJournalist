@@ -1,0 +1,123 @@
+{
+  "interpolator": [
+    {
+      "name": "A",
+      "module": "Interpolators",
+      "value": [
+        0.33,
+        0,
+        0.2,
+        1
+      ]
+    },
+    {
+      "name": "B",
+      "module": "Interpolators",
+      "value": [
+        0.33,
+        0,
+        0.67,
+        1
+      ]
+    },
+    {
+      "name": "C",
+      "module": "Interpolators",
+      "value": [
+        0.5,
+        0,
+        0.5,
+        1
+      ]
+    },
+    {
+      "name": "D",
+      "module": "Interpolators",
+      "value": [
+        0.8,
+        0,
+        0.67,
+        1
+      ]
+    }
+  ],
+  "process": {
+  "sound": [
+        {
+          "delay_time": 0,
+          "section_spec": {
+            "duration": 5940,
+            "source": "emo_psv_boot_update.wav"
+          }
+        }
+      ],
+    "gif": [
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 5940,
+          "source": "boot_behavior_emo.gif"
+        }
+      }
+    ],
+    "pitch": [
+      {
+        "delay_time": 2333,
+        "section_spec": {
+          "duration": 500,
+          "interpolator_name": "A",
+          "value": [
+            0.261799,
+            0.523599
+          ]
+        }
+      },
+      {
+        "delay_time": 2166,
+        "section_spec": {
+          "duration": 500,
+          "interpolator_name": "A",
+          "value": [
+            0.523599,
+            0.261799
+          ]
+        }
+      }
+    ],
+    "yaw": [
+      {
+        "delay_time": 2333,
+        "section_spec": {
+          "duration": 500,
+          "interpolator_name": "A",
+          "value": [
+            0,
+            0.523599
+          ]
+        }
+      },
+      {
+        "delay_time": 833,
+        "section_spec": {
+          "duration": 500,
+          "interpolator_name": "C",
+          "value": [
+            0.523599,
+            -0.174533
+          ]
+        }
+      },
+      {
+        "delay_time": 833,
+        "section_spec": {
+          "duration": 500,
+          "interpolator_name": "B",
+          "value": [
+            -0.174533,
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

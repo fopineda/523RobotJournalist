@@ -1,0 +1,22 @@
+{
+  "process": {
+    "sound": [
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 5940,
+          "source": "emo_robotwakeup.wav"
+        }
+      }
+    ],
+    "gif": [
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 5940,
+          "source": "emo_psv_wakeup.gif"
+        }
+      }
+    ]
+  }
+}

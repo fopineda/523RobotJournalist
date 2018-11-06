@@ -1,0 +1,110 @@
+{
+  "interpolator": [
+    {
+      "name": "A",
+      "module": "Interpolators",
+      "value": [
+        0.33,
+        0,
+        0.2,
+        1
+      ]
+    },
+    {
+      "name": "B",
+      "module": "Interpolators",
+      "value": [
+        0.33,
+        0,
+        0.67,
+        1
+      ]
+    },
+    {
+      "name": "C",
+      "module": "Interpolators",
+      "value": [
+        0.5,
+        0,
+        0.5,
+        1
+      ]
+    },
+    {
+      "name": "D",
+      "module": "Interpolators",
+      "value": [
+        0.8,
+        0,
+        0.67,
+        1
+      ]
+    }
+  ],
+  "process": {
+    "gif": [
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 6270,
+          "source": "emo_psv_nono.gif"
+        }
+      }
+    ],
+    "sound": [
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 6270,
+          "source": "emo_psv_nono.wav"
+        }
+      }
+    ],
+    "yaw": [
+      {
+        "delay_time": 2000,
+        "section_spec": {
+          "duration": 333,
+          "interpolator_name": "C",
+          "value": [
+            0,
+            0.174533
+          ]
+        }
+      },
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 333,
+          "interpolator_name": "C",
+          "value": [
+            0.174533,
+            -0.174533
+          ]
+        }
+      },
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 333,
+          "interpolator_name": "C",
+          "value": [
+            -0.174533,
+            0.174533
+          ]
+        }
+      },
+      {
+        "delay_time": 0,
+        "section_spec": {
+          "duration": 333,
+          "interpolator_name": "",
+          "value": [
+            0.174533,
+            0
+          ]
+        }
+      }
+    ]
+  }
+}
