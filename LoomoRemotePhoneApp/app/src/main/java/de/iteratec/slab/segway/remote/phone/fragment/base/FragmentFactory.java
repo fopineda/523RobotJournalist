@@ -3,6 +3,7 @@ package de.iteratec.slab.segway.remote.phone.fragment.base;
 import android.content.Context;
 
 import de.iteratec.slab.segway.remote.phone.R;
+import de.iteratec.slab.segway.remote.phone.fragment.AudioRecorderFragment;
 import de.iteratec.slab.segway.remote.phone.fragment.EmojiFragment;
 import de.iteratec.slab.segway.remote.phone.fragment.HeadControlFragment;
 import de.iteratec.slab.segway.remote.phone.fragment.MovementGridFragment;
@@ -41,6 +42,9 @@ public class FragmentFactory {
             case R.id.movement_grid:
                 fragment = new MovementGridFragment();
                 break;
+            case R.id.audio_recorder:
+                fragment = new AudioRecorderFragment();
+                break;
             default:
                 throw new IllegalArgumentException("Unknown Fragment ID");
         }
@@ -72,6 +76,10 @@ public class FragmentFactory {
             case R.id.movement_grid:
                 title = context.getResources().getString(R.string.navigation_fragment_title_grid);
                 break;
+            case R.id.audio_recorder:
+                title = context.getResources().getString(R.string.navigation_fragment_title_recorder);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unknown Fragment ID");
         }
