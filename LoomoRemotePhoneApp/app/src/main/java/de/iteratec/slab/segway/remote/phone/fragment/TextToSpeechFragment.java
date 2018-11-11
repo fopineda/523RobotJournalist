@@ -1,6 +1,7 @@
 package de.iteratec.slab.segway.remote.phone.fragment;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 
 import com.segway.robot.mobile.sdk.connectivity.StringMessage;
+import com.segway.robot.sdk.vision.Vision;
 
 import java.sql.*;
 
@@ -64,6 +66,17 @@ public class TextToSpeechFragment extends RemoteFragment {
 
         Button soundTestButton = layout.findViewById(R.id.BeginInterview);
         soundTestButton.setOnClickListener(mButtonClickListener);
+
+        Button loginButton = layout.findViewById(R.id.login);
+        loginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View view){
+                //startActivity(new Intent(TextToSpeechFragment.this.getActivity(), VisionFragment.class));
+                VisionFragment.userName = userIdInput.getText().toString();
+                VisionFragment.interviewName = interviewNumberInput.getText().toString();
+            }
+        });
+
         userIdInput = layout.findViewById(R.id.UserID);
         interviewNumberInput = layout.findViewById(R.id.InterviewID);
 

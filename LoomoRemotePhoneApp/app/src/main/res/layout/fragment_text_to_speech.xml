@@ -45,6 +45,14 @@
         <!--android:text="Play Broadcast" />-->
 
         <Button
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/login"/>
+
+        <Button
             android:id="@+id/BeginInterview"
             android:layout_width="480dp"
             android:layout_height="wrap_content"

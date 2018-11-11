@@ -17,5 +17,7 @@
     <string name="enter_interview_id">Enter Interview ID</string>
     <string name="enter_userid">Enter UserID</string>
     <string name="begin_interview">Begin Interview</string>
+    <string name="login">Login</string>
+    <string name="get_ids">Get IDs</string>
 
 </resources>

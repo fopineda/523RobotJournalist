@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.segway.robot.mobile.sdk.connectivity.StringMessage;
@@ -33,6 +34,9 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
     private JoystickView joyHeadPitch;
     private JoystickView joyHeadYaw;
 
+    public static String userName = "";
+    public static String interviewName = "";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +58,15 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
         joyHeadPitch.setOnTouchListener(MovementListenerFactory.getJoyStickReleaseListener(this, MovementListenerFactory.JOYSTICK_PITCH));
         joyHeadYaw.setOnTouchListener(MovementListenerFactory.getJoyStickReleaseListener(this, MovementListenerFactory.JOYSTICK_YAW));
 
+
+        Button getIDButton = layout.findViewById(R.id.getID);
+        getIDButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View view){
+                Log.i("Vision userName", userName);
+                Log.i("Vision interviewName", interviewName);
+            }
+        });
 
         Log.d(TAG, "sending vision start");
         String[] message = {"vision", "start"};
