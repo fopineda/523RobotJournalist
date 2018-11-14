@@ -2,6 +2,7 @@ package de.iteratec.slab.segway.remote.phone.fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,16 +13,19 @@ import android.widget.ImageView;
 
 import com.segway.robot.mobile.sdk.connectivity.StringMessage;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import de.iteratec.slab.segway.remote.phone.R;
 import de.iteratec.slab.segway.remote.phone.fragment.base.JoyStickControllerFragment;
 import de.iteratec.slab.segway.remote.phone.service.ByteMessageReceiver;
 import de.iteratec.slab.segway.remote.phone.util.CommandStringFactory;
 import de.iteratec.slab.segway.remote.phone.util.MovementListenerFactory;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
-
-/**
- * Created by mss on 22.12.17.
- */
 
 public class VisionFragment extends JoyStickControllerFragment implements ByteMessageReceiver {
 
@@ -59,12 +63,19 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
         joyHeadYaw.setOnTouchListener(MovementListenerFactory.getJoyStickReleaseListener(this, MovementListenerFactory.JOYSTICK_YAW));
 
 
-        Button getIDButton = layout.findViewById(R.id.getID);
-        getIDButton.setOnClickListener(new View.OnClickListener(){
+        Button startInterviewButton = layout.findViewById(R.id.startInterview);
+        startInterviewButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View view){
                 Log.i("Vision userName", userName);
                 Log.i("Vision interviewName", interviewName);
+                try{
+                    new VisionFragment.MyTask().execute();
+
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -94,6 +105,78 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                 imageView.setImageBitmap(bitmap);
             }
         });
+    }
+
+    private class MyTask extends AsyncTask<Void, Void, Void> {
+
+        String logMessage;
+        ArrayList<String> questionList = new ArrayList<String>();
+
+
+        @Override
+        protected Void doInBackground(Void...arg0){
+
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist", "roboj", "robotjournalist");
+
+                Statement stmt = con.createStatement();
+
+                ResultSet rs = stmt.executeQuery("SELECT * FROM interviewQuestions WHERE interviewID = '" + interviewName + "' AND userID = '" + userName + "'");
+
+                getLoomoService().sendSound("Hello, my name is " +userName+ " and I'd like to interview you about " +interviewName+ ". Is it okay if I ask you some questions?");
+//                questionList.add("Hello, my name is " +userName+ " and I'd like to interview you about " +interviewName+ ". Is it okay if I ask you some questions?");
+                try
+                {
+                    int counter =0;
+                    while(counter < 1000) {
+                        TimeUnit.SECONDS.sleep(1);
+                        counter++;
+                    }
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                    Log.v("Sleep Time", "Sleep Failed");
+                }
+
+
+                while(rs.next())
+                {
+                    questionList.add(rs.getString(4));
+                }
+
+                logMessage = "SQL Succeeded";
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                logMessage = "SQL Fail";
+            }
+
+            return null;
+        }
+
+        public String getLogMessage(){
+            return logMessage;
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+            Log.v("SQLStatus", logMessage);
+            for(String question : questionList) {
+                getLoomoService().sendSound(question);
+                try
+                {
+                    TimeUnit.SECONDS.sleep(3);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                    Log.v("Sleep Time", "Sleep Failed");
+                }
+            }
+        }
+
     }
 
 }

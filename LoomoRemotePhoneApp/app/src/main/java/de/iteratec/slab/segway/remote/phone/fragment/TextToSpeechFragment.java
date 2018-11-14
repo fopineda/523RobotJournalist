@@ -1,6 +1,7 @@
 package de.iteratec.slab.segway.remote.phone.fragment;
 
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -74,6 +75,7 @@ public class TextToSpeechFragment extends RemoteFragment {
                 //startActivity(new Intent(TextToSpeechFragment.this.getActivity(), VisionFragment.class));
                 VisionFragment.userName = userIdInput.getText().toString();
                 VisionFragment.interviewName = interviewNumberInput.getText().toString();
+
             }
         });
 

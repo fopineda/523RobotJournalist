@@ -70,7 +70,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Log.i("pageID", String.valueOf(id));
         if (id == R.id.logout) {
             super.finish();
         }
