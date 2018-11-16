@@ -134,6 +134,12 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                     while(counter < 40) {
                         TimeUnit.SECONDS.sleep(1);
                         counter++;
+                        Log.i("ConnectionMessage", ConnectionService.messageReceived);
+                        if(ConnectionService.messageReceived.equals("Positive Received")){
+                            getLoomoService().sendSound("Thank you for taking the time to Speak with me!");
+                            TimeUnit.SECONDS.sleep(10);
+                            break;
+                        }
                     }
                 }
                 catch (InterruptedException e)

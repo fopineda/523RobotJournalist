@@ -205,8 +205,12 @@ public class ConnectionService extends Service {
                     receiver.handleByteMessage((byte[]) message.getContent());
                 }
             } else {
+                messageReceived = "";
                 Log.i(TAG, "gotMessage: " + message.getContent());
-                //messageReceived = message.getContent().toString();
+                if(message.getContent().equals("Positive Received") || message.getContent().equals("Negative Received")) {
+                    messageReceived += message.getContent();
+                }
+
             }
         }
     };
