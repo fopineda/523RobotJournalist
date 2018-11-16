@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.segway.robot.sdk.base.bind.ServiceBinder;
 import com.segway.robot.sdk.voice.Recognizer;
+import com.segway.robot.sdk.voice.Speaker;
 import com.segway.robot.sdk.voice.VoiceException;
 import com.segway.robot.sdk.voice.grammar.GrammarConstraint;
 import com.segway.robot.sdk.voice.grammar.Slot;
@@ -20,12 +21,15 @@ import com.segway.robot.sdk.voice.recognition.RecognitionResult;
 import com.segway.robot.sdk.voice.recognition.WakeupListener;
 import com.segway.robot.sdk.voice.recognition.WakeupResult;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+
+import de.iteratec.slab.segway.remote.robot.MainActivity;
 
 /**
  * Created by mss on 22.12.17.
@@ -97,6 +101,8 @@ public class LoomoRecognitionService {
                 try {
                     recognizer.addGrammarConstraint(getSniJokeContraint());
                     recognizer.addGrammarConstraint(getMoveConstraint());
+                    recognizer.addGrammarConstraint(getPosResponse());
+                    recognizer.addGrammarConstraint(getNegResponse());
 
                     // listen by default and toggle it off via settings
                     LoomoRecognitionService.getInstance().startListening();
@@ -132,6 +138,22 @@ public class LoomoRecognitionService {
         return constraint;
     }
 
+    private static final GrammarConstraint getPosResponse(){
+        GrammarConstraint constraint = new GrammarConstraint();
+        constraint.setName("posResponse");
+
+        constraint.addSlot(new Slot("positiveResponse", false, Arrays.asList("yes", "okay", "sure", "whatever", "yup", "alright")));
+        return constraint;
+    }
+
+    private static final GrammarConstraint getNegResponse(){
+        GrammarConstraint constraint = new GrammarConstraint();
+        constraint.setName("NegResponse");
+
+        constraint.addSlot(new Slot("negativeResponse", false, Arrays.asList("nope", "nah", "no", "I'm good", "no thanks")));
+        return constraint;
+    }
+
     public void startListening() {
         Log.d(TAG, "startListening");
         try {
@@ -160,6 +182,9 @@ public class LoomoRecognitionService {
     }
 
     private class RobotRecognitionListener implements RecognitionListener {
+
+
+
         @Override
         public void onRecognitionStart() {
             Log.i(TAG, "started recognition");
@@ -211,6 +236,23 @@ public class LoomoRecognitionService {
 
                 }
             }
+            else if(isCommand(recognitionResult.getRecognitionResult(), posResponse)){
+
+                for(String response: posResponse){
+                    if(recognitionResult.getRecognitionResult().contains(response)) {
+                        Log.i("positiveMessage", "positive response");
+                        break;
+                    }
+                }
+            }
+            else if(isCommand(recognitionResult.getRecognitionResult(), negResponse)){
+                for(String response: negResponse){
+                    if(recognitionResult.getRecognitionResult().contains(response)) {
+                        Log.i("negativeMessage", "negative response!!!");
+                        break;
+                    }
+                }
+            }
             return false;
         }
 
@@ -233,6 +275,8 @@ public class LoomoRecognitionService {
 
     private static final List<String> jokeCommandList = Arrays.asList("sni", "joke", "sebastian");
     private static final List<String> moveCommandList = Arrays.asList("move", "turn", "walk");
+    private static final List<String> posResponse = Arrays.asList("yes", "okay", "sure", "whatever", "yup", "alright");
+    private static final List<String> negResponse = Arrays.asList("nope", "nah", "no", "I'm good", "no thanks");
 
     private static final String[] jokes = {
             "There is only one real sni.",
