@@ -29,6 +29,8 @@ public class ConnectionService extends Service {
 
     private boolean connectionSkipped = false;
 
+    public static String messageReceived = "";
+
     public boolean isConnectionSkipped() {
         return connectionSkipped;
     }
@@ -203,7 +205,8 @@ public class ConnectionService extends Service {
                     receiver.handleByteMessage((byte[]) message.getContent());
                 }
             } else {
-                Log.i(TAG, "Received string message: " + message.getContent());
+                Log.i(TAG, "gotMessage: " + message.getContent());
+                //messageReceived = message.getContent().toString();
             }
         }
     };

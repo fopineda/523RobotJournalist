@@ -20,9 +20,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import de.iteratec.slab.segway.remote.phone.ConnectActivity;
 import de.iteratec.slab.segway.remote.phone.R;
 import de.iteratec.slab.segway.remote.phone.fragment.base.JoyStickControllerFragment;
 import de.iteratec.slab.segway.remote.phone.service.ByteMessageReceiver;
+import de.iteratec.slab.segway.remote.phone.service.ConnectionService;
 import de.iteratec.slab.segway.remote.phone.util.CommandStringFactory;
 import de.iteratec.slab.segway.remote.phone.util.MovementListenerFactory;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -124,12 +126,12 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
 
                 ResultSet rs = stmt.executeQuery("SELECT * FROM interviewQuestions WHERE interviewID = '" + interviewName + "' AND userID = '" + userName + "'");
 
-                getLoomoService().sendSound("Hello, my name is " +userName+ " and I'd like to interview you about " +interviewName+ ". Is it okay if I ask you some questions?");
+                getLoomoService().sendSound("Hello, my name is " + userName + " and I'd like to interview you about " + interviewName + ". Is it okay if I ask you some questions?");
 //                questionList.add("Hello, my name is " +userName+ " and I'd like to interview you about " +interviewName+ ". Is it okay if I ask you some questions?");
                 try
                 {
                     int counter =0;
-                    while(counter < 1000) {
+                    while(counter < 40) {
                         TimeUnit.SECONDS.sleep(1);
                         counter++;
                     }
@@ -154,10 +156,6 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
             }
 
             return null;
-        }
-
-        public String getLogMessage(){
-            return logMessage;
         }
 
         @Override

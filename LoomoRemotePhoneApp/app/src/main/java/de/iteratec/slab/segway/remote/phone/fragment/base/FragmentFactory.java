@@ -21,12 +21,12 @@ public class FragmentFactory {
     public static RemoteFragmentInterface getFragment(Context context, int id) {
         RemoteFragmentInterface fragment;
         switch (id) {
-            case R.id.raw_control:
+            /*case R.id.raw_control:
                 fragment = new RawControlFragment();
                 break;
             case R.id.head_control:
                 fragment = new HeadControlFragment();
-                break;
+                break;*/
             case R.id.tts:
                 fragment = new TextToSpeechFragment();
                 break;
@@ -36,7 +36,7 @@ public class FragmentFactory {
             case R.id.settings:
                 fragment = new SettingsFragment();
                 break;
-            case R.id.emoji:
+            /*case R.id.emoji:
                 fragment = new EmojiFragment();
                 break;
             case R.id.movement_grid:
@@ -44,7 +44,7 @@ public class FragmentFactory {
                 break;
             case R.id.audio_recorder:
                 fragment = new AudioRecorderFragment();
-                break;
+                break;*/
             default:
                 throw new IllegalArgumentException("Unknown Fragment ID");
         }
@@ -55,12 +55,12 @@ public class FragmentFactory {
     private static String getTitleForFragmentId(Context context, int id) {
         String title;
         switch (id) {
-            case R.id.raw_control:
-                title = context.getResources().getString(R.string.navigation_fragment_title_raw);
-                break;
-            case R.id.head_control:
-                title = context.getResources().getString(R.string.navigation_fragment_title_head);
-                break;
+//            case R.id.raw_control:
+//                title = context.getResources().getString(R.string.navigation_fragment_title_raw);
+//                break;
+//            case R.id.head_control:
+//                title = context.getResources().getString(R.string.navigation_fragment_title_head);
+//                break;
             case R.id.tts:
                 title = context.getResources().getString(R.string.navigation_fragment_title_tts);
                 break;
@@ -70,15 +70,15 @@ public class FragmentFactory {
             case R.id.settings:
                 title = context.getResources().getString(R.string.navigation_fragment_title_settings);
                 break;
-            case R.id.emoji:
-                title = context.getResources().getString(R.string.navigation_fragment_title_emoji);
-                break;
-            case R.id.movement_grid:
-                title = context.getResources().getString(R.string.navigation_fragment_title_grid);
-                break;
-            case R.id.audio_recorder:
-                title = context.getResources().getString(R.string.navigation_fragment_title_recorder);
-                break;
+//            case R.id.emoji:
+//                title = context.getResources().getString(R.string.navigation_fragment_title_emoji);
+//                break;
+//            case R.id.movement_grid:
+//                title = context.getResources().getString(R.string.navigation_fragment_title_grid);
+//                break;
+//            case R.id.audio_recorder:
+//                title = context.getResources().getString(R.string.navigation_fragment_title_recorder);
+//                break;
 
             default:
                 throw new IllegalArgumentException("Unknown Fragment ID");
