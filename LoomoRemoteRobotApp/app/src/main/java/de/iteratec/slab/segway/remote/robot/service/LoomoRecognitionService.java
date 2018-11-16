@@ -241,6 +241,7 @@ public class LoomoRecognitionService {
                 for(String response: posResponse){
                     if(recognitionResult.getRecognitionResult().contains(response)) {
                         Log.i("positiveMessage", "positive response");
+                        LoomoConnectivityService.getInstance().onPositive();
                         break;
                     }
                 }
@@ -248,6 +249,7 @@ public class LoomoRecognitionService {
             else if(isCommand(recognitionResult.getRecognitionResult(), negResponse)){
                 for(String response: negResponse){
                     if(recognitionResult.getRecognitionResult().contains(response)) {
+
                         Log.i("negativeMessage", "negative response!!!");
                         break;
                     }

@@ -6,7 +6,9 @@ import android.widget.Toast;
 import com.segway.robot.sdk.base.bind.ServiceBinder;
 import com.segway.robot.sdk.baseconnectivity.MessageConnection;
 import com.segway.robot.sdk.baseconnectivity.MessageRouter;
+import com.segway.robot.sdk.connectivity.BufferMessage;
 import com.segway.robot.sdk.connectivity.RobotMessageRouter;
+import com.segway.robot.sdk.connectivity.StringMessage;
 
 import de.iteratec.slab.segway.remote.robot.MainActivity;
 import de.iteratec.slab.segway.remote.robot.listener.MessageListener;
@@ -82,6 +84,19 @@ public class LoomoConnectivityService {
         }
     };
 
+    private void sendString(){
+        try{
+            messageConnection.sendMessage(new StringMessage("Positive Received"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void onPositive(){
+        sendString();
+    }
+
+
     private MessageConnection.ConnectionStateListener connectionStateListener = new MessageConnection.ConnectionStateListener() {
         @Override
         public void onOpened() {
@@ -89,6 +104,11 @@ public class LoomoConnectivityService {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    try {
+                        messageConnection.sendMessage(new StringMessage("Hello World"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     Toast.makeText(mainActivity, "connected to: " + messageConnection.getName(), Toast.LENGTH_SHORT).show();
                 }
             });
