@@ -113,6 +113,7 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
 
         String logMessage;
         ArrayList<String> questionList = new ArrayList<String>();
+        Boolean isNegative = false;
 
 
         @Override
@@ -136,8 +137,17 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                         counter++;
                         Log.i("ConnectionMessage", ConnectionService.messageReceived);
                         if(ConnectionService.messageReceived.equals("Positive Received")){
-                            getLoomoService().sendSound("Thank you for taking the time to Speak with me!");
-                            TimeUnit.SECONDS.sleep(10);
+                            getLoomoService().sendSound("Thank you for taking the time to Speak with me! Let's begin the interview.");
+                            TimeUnit.SECONDS.sleep(7);
+                            ConnectionService.messageReceived = "";
+                            isNegative = false;
+                            break;
+                        }
+                        else if(ConnectionService.messageReceived.equals("Negative Received")){
+                            getLoomoService().sendSound("That's alright. Thanks anyway and have a great day.");
+                            TimeUnit.SECONDS.sleep(5);
+                            ConnectionService.messageReceived = "";
+                            isNegative = true;
                             break;
                         }
                     }
@@ -154,6 +164,8 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                     questionList.add(rs.getString(4));
                 }
 
+                questionList.add("Thank you for taking the time to interview with me. Have a great day!");
+
                 logMessage = "SQL Succeeded";
 
             } catch (Exception e) {
@@ -165,18 +177,17 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
         }
 
         @Override
-        protected void onPostExecute(Void result){
+        protected void onPostExecute(Void result) {
             Log.v("SQLStatus", logMessage);
-            for(String question : questionList) {
-                getLoomoService().sendSound(question);
-                try
-                {
-                    TimeUnit.SECONDS.sleep(3);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                    Log.v("Sleep Time", "Sleep Failed");
+            if (!isNegative){
+                for (String question : questionList) {
+                    getLoomoService().sendSound(question);
+                    try {
+                        TimeUnit.SECONDS.sleep(15);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        Log.v("Sleep Time", "Sleep Failed");
+                    }
                 }
             }
         }
