@@ -7,11 +7,14 @@ import android.media.MediaPlayer;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.segway.robot.sdk.base.bind.ServiceBinder;
 import com.segway.robot.sdk.voice.Speaker;
 import com.segway.robot.sdk.voice.VoiceException;
 import com.segway.robot.sdk.voice.tts.TtsListener;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by abr on 22.12.17.
@@ -30,8 +33,8 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
     private static final String TAG = "LoomoSpeakService";
     private Speaker speaker;
     private Context context;
-
     public static LoomoSpeakService instance;
+//    public Camera2VideoFragment myCamera = new Camera2VideoFragment();
 
     public static LoomoSpeakService getInstance() {
         if (instance == null) {
@@ -72,7 +75,44 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
     }
 
     public void speak(String sentence) {
+//        try {
+//            Camera2VideoFragment myCamera = new Camera2VideoFragment(this.context);
+//            myCamera.openCamera(640,480);
+////            try { TimeUnit.SECONDS.sleep(10); } catch (InterruptedException e) { e.printStackTrace();}
+//            myCamera.startRecordingVideo();
+//            Log.d(TAG, "ran startRecordingVideo()");
+//
+//
+//            tts.speak(sentence, TextToSpeech.QUEUE_FLUSH, null);
+//
+//
+//            try { TimeUnit.SECONDS.sleep(10); } catch (InterruptedException e) { e.printStackTrace();}
+//            myCamera.stopRecordingVideo();
+//            Log.d(TAG, "ran stopRecordingVideo()");
+//            myCamera.closeCamera();
+//            Log.d(TAG, "ran closeCamera()");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
+//        CameraControllerV2WithoutPreview hope = new CameraControllerV2WithoutPreview(this.context);
+//        tts.speak(sentence, TextToSpeech.QUEUE_FLUSH, null);
+//        hope.openCamera();
+//        Log.d(TAG, "openCamera()");
+//        try { Thread.sleep(20); } catch (InterruptedException e) {}
+//        hope.takePicture();
+//        Log.d(TAG, "Picture taken or at least went through takePicture()");
+//
+//
+//        Toast.makeText(this.context, "Picture took!!!", Toast.LENGTH_SHORT).show();
+
+        InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
         tts.speak(sentence, TextToSpeech.QUEUE_FLUSH, null);
+        HDCamera.start(); // starts recording (maybe allow sometime between start and stop, b/c it might throw an error)
+        try { Thread.sleep(20000); } catch (InterruptedException e) {}  // 20 seconds
+        HDCamera.stop(); // stops recording
+        // saves to /storage/sdcard0/Android/data/de.iteratec.slab.segway.remote.robot/files/movies/ on robot
     }
 
 
