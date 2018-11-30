@@ -84,7 +84,7 @@ public class LoomoConnectivityService {
         }
     };
 
-    private void sendString(){
+    private void sendStringPos(){
         try{
             messageConnection.sendMessage(new StringMessage("Positive Received"));
         }catch(Exception e){
@@ -93,7 +93,19 @@ public class LoomoConnectivityService {
     }
 
     public void onPositive(){
-        sendString();
+        sendStringPos();
+    }
+
+    private void sendStringNeg(){
+        try{
+            messageConnection.sendMessage(new StringMessage("Negative Received"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void onNegative(){
+        sendStringNeg();
     }
 
 

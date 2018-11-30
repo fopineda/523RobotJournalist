@@ -9,6 +9,7 @@ import com.segway.robot.sdk.baseconnectivity.MessageConnection;
 import java.util.Arrays;
 
 import de.iteratec.slab.segway.remote.robot.MainActivity;
+import de.iteratec.slab.segway.remote.robot.service.LoomoSpeakService;
 
 /**
  * Created by abr on 22.12.17.
@@ -18,6 +19,8 @@ public class MessageListener implements MessageConnection.MessageListener {
 
     private static String TAG = "MessageListener";
     private final MainActivity activity;
+
+    public static String messageReceived = "";
 
     private Toast messageToast = null;
 
@@ -42,6 +45,18 @@ public class MessageListener implements MessageConnection.MessageListener {
     @Override
     public void onMessageReceived(final Message message) {
         Log.d(TAG, "onMessageReceived: " + message);
+
+        Log.d(TAG, "messageListener onMessageReceived: " + message);
+        if (message.getContent() instanceof String[]) {
+            //messageReceived = "";
+            Log.i(TAG, "gotMessage: " + message.getContent());
+            if(message.getContent().equals("Start Recording") || message.getContent().equals("Stop Recording")) {
+                messageReceived += message.getContent();
+                Log.i("Record status", messageReceived);
+                LoomoSpeakService.instance.recordingStatus();
+            }
+
+        }
 
         long startTime = System.currentTimeMillis();
 

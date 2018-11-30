@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.segway.robot.mobile.sdk.connectivity.MobileMessageRouter;
+import com.segway.robot.mobile.sdk.connectivity.StringMessage;
 import com.segway.robot.sdk.base.bind.ServiceBinder;
 import com.segway.robot.sdk.baseconnectivity.Message;
 import com.segway.robot.sdk.baseconnectivity.MessageConnection;
@@ -50,6 +51,30 @@ public class ConnectionService extends Service {
         }
 
         return instance;
+    }
+
+    private void sendStopRecording(){
+        try{
+            messageConnection.sendMessage(new StringMessage("Stop Recording"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void onStopRecoring(){
+        sendStopRecording();
+    }
+
+    private void sendStartRecording(){
+        try{
+            messageConnection.sendMessage(new StringMessage("Start Recording"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void onStartRecoring(){
+        sendStartRecording();
     }
 
     public void sendSound(String speak) {
@@ -207,7 +232,7 @@ public class ConnectionService extends Service {
             } else {
                 messageReceived = "";
                 Log.i(TAG, "gotMessage: " + message.getContent());
-                if(message.getContent().equals("Positive Received") || message.getContent().equals("Negative Received")) {
+                if(message.getContent().equals("Positive Received") || message.getContent().equals("Negative Received") || message.getContent().equals("Finished Early Received")) {
                     messageReceived += message.getContent();
                 }
 

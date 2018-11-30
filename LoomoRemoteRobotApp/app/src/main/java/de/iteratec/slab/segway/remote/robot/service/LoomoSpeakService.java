@@ -16,6 +16,8 @@ import com.segway.robot.sdk.voice.tts.TtsListener;
 
 import java.util.concurrent.TimeUnit;
 
+import de.iteratec.slab.segway.remote.robot.listener.MessageListener;
+
 /**
  * Created by abr on 22.12.17.
  */
@@ -25,6 +27,8 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
     private TextToSpeech tts;
 
     MediaPlayer player = new MediaPlayer();
+
+    //InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
 
     @Override
     public void onInit(int status) {
@@ -107,14 +111,38 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
 //
 //        Toast.makeText(this.context, "Picture took!!!", Toast.LENGTH_SHORT).show();
 
-        InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
+        //InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
         tts.speak(sentence, TextToSpeech.QUEUE_FLUSH, null);
-        HDCamera.start(); // starts recording (maybe allow sometime between start and stop, b/c it might throw an error)
-        try { Thread.sleep(20000); } catch (InterruptedException e) {}  // 20 seconds
-        HDCamera.stop(); // stops recording
+        /*if(MessageListener.messageReceived.equals("Start Recording")) {
+            HDCamera.start(); // starts recording (maybe allow sometime between start and stop, b/c it might throw an error)
+            MessageListener.messageReceived = "";
+            Log.i("Recording Status", "Started Recording");
+        }
+        //try { Thread.sleep(20000); } catch (InterruptedException e) {}  // 20 seconds
+        if(MessageListener.messageReceived.equals("Stop Recording")) {
+            HDCamera.stop(); // stops recording
+            MessageListener.messageReceived = "";
+            Log.i("Recording Status", "Stopped Recording");
+        }*/
         // saves to /storage/sdcard0/Android/data/de.iteratec.slab.segway.remote.robot/files/movies/ on robot
     }
 
+    public void recordingStatus(){
+        Log.i("RecordingStatus", "Method Called");
+        InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
+
+        if(MessageListener.messageReceived.equals("Start Recording")) {
+            HDCamera.start(); // starts recording (maybe allow sometime between start and stop, b/c it might throw an error)
+            Log.i("RecordingStatus", MessageListener.messageReceived);
+            MessageListener.messageReceived = "";
+        }
+        //try { Thread.sleep(20000); } catch (InterruptedException e) {}  // 20 seconds
+        else if(MessageListener.messageReceived.equals("Stop Recording")) {
+            HDCamera.stop(); // stops recording
+            Log.i("RecordingStatus", MessageListener.messageReceived);
+            MessageListener.messageReceived = "";
+        }
+    }
 
     private void init() {
 

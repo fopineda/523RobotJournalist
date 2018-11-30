@@ -249,7 +249,7 @@ public class LoomoRecognitionService {
             else if(isCommand(recognitionResult.getRecognitionResult(), negResponse)){
                 for(String response: negResponse){
                     if(recognitionResult.getRecognitionResult().contains(response)) {
-
+                        LoomoConnectivityService.getInstance().onNegative();
                         Log.i("negativeMessage", "negative response!!!");
                         break;
                     }
