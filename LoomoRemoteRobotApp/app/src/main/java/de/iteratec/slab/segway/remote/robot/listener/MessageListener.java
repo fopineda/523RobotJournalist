@@ -1,5 +1,6 @@
 package de.iteratec.slab.segway.remote.robot.listener;
 
+import android.nfc.Tag;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -50,11 +51,11 @@ public class MessageListener implements MessageConnection.MessageListener {
         if (message.getContent() instanceof String[]) {
             //messageReceived = "";
             Log.i(TAG, "gotMessage: " + message.getContent());
-            if(message.getContent().equals("Start Recording") || message.getContent().equals("Stop Recording")) {
-                messageReceived += message.getContent();
-                Log.i("Record status", messageReceived);
-                LoomoSpeakService.instance.recordingStatus();
-            }
+//            if(message.getContent().equals("Start Recording") || message.getContent().equals("Stop Recording")) {
+//                messageReceived += message.getContent();
+//                Log.i("Record status", messageReceived);
+////                LoomoSpeakService.instance.recordingStatus();
+//            }
 
         }
 
@@ -64,7 +65,14 @@ public class MessageListener implements MessageConnection.MessageListener {
         String[] splitMessage = splitMessage(message);
         String prefix = splitMessage[0];
 
+        if(prefix.equals("Start Recording") || prefix.equals("Stop Recording")) {
+            messageReceived = prefix;
+            Log.i("Record status", messageReceived);
+//                LoomoSpeakService.instance.recordingStatus();
+        }
+
         Log.i(TAG, "Received " + prefix + " message");
+        Log.i(TAG, messageReceived);
         try {
             switch (prefix){
                 case "speak":

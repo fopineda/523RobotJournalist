@@ -1,10 +1,5 @@
 package de.iteratec.slab.segway.remote.robot.listener;
 
-/**
- * Created by mss on 22.12.17.
- */
-
-
 import android.util.Log;
 
 import com.segway.robot.sdk.baseconnectivity.Message;

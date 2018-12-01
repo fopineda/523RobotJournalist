@@ -108,7 +108,6 @@ public class LoomoConnectivityService {
         sendStringNeg();
     }
 
-
     private MessageConnection.ConnectionStateListener connectionStateListener = new MessageConnection.ConnectionStateListener() {
         @Override
         public void onOpened() {

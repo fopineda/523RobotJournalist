@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
+import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.widget.EditText;
@@ -28,10 +29,13 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
 
     MediaPlayer player = new MediaPlayer();
 
+//    InvisibleVideoRecorder HDCamera;
+
     //InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
 
     @Override
     public void onInit(int status) {
+
     }
 
     private static final String TAG = "LoomoSpeakService";
@@ -53,6 +57,7 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
         this.instance = this;
 
         tts = new TextToSpeech(context, this);
+//        HDCamera = new InvisibleVideoRecorder(this.context);
     }
 
     public void restartService() {
@@ -110,20 +115,27 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
 //
 //
 //        Toast.makeText(this.context, "Picture took!!!", Toast.LENGTH_SHORT).show();
-
-        //InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
+        InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
         tts.speak(sentence, TextToSpeech.QUEUE_FLUSH, null);
-        /*if(MessageListener.messageReceived.equals("Start Recording")) {
+            Log.v("receivingMessage", MessageListener.messageReceived);
+        if(MessageListener.messageReceived.equals("Start Recording")) {
             HDCamera.start(); // starts recording (maybe allow sometime between start and stop, b/c it might throw an error)
+//            try { TimeUnit.SECONDS.sleep(20); } catch (InterruptedException e) {}
             MessageListener.messageReceived = "";
             Log.i("Recording Status", "Started Recording");
         }
-        //try { Thread.sleep(20000); } catch (InterruptedException e) {}  // 20 seconds
-        if(MessageListener.messageReceived.equals("Stop Recording")) {
-            HDCamera.stop(); // stops recording
-            MessageListener.messageReceived = "";
+        if(MessageListener.messageReceived.equals("Stop Recording")){
             Log.i("Recording Status", "Stopped Recording");
-        }*/
+            HDCamera.stop();
+        }
+
+
+//        try { Thread.sleep(20000); } catch (InterruptedException e) {}  // 20 seconds
+//        if(MessageListener.messageReceived.equals("Stop Recording")) {
+//            HDCamera.stop(); // stops recording
+//            MessageListener.messageReceived = "";
+//            Log.i("Recording Status", "Stopped Recording");
+//        }
         // saves to /storage/sdcard0/Android/data/de.iteratec.slab.segway.remote.robot/files/movies/ on robot
     }
 
