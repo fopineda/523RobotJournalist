@@ -40,6 +40,7 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
 
     private static final String TAG = "LoomoSpeakService";
     private Speaker speaker;
+    private static InvisibleVideoRecorder HDCamera;
     private Context context;
     public static LoomoSpeakService instance;
 //    public Camera2VideoFragment myCamera = new Camera2VideoFragment();
@@ -57,7 +58,7 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
         this.instance = this;
 
         tts = new TextToSpeech(context, this);
-//        HDCamera = new InvisibleVideoRecorder(this.context);
+        HDCamera = new InvisibleVideoRecorder(this.context);
     }
 
     public void restartService() {
@@ -115,7 +116,7 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
 //
 //
 //        Toast.makeText(this.context, "Picture took!!!", Toast.LENGTH_SHORT).show();
-        InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
+        //InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
         tts.speak(sentence, TextToSpeech.QUEUE_FLUSH, null);
             Log.v("receivingMessage", MessageListener.messageReceived);
         if(MessageListener.messageReceived.equals("Start Recording")) {
@@ -126,6 +127,7 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
         }
         if(MessageListener.messageReceived.equals("Stop Recording")){
             Log.i("Recording Status", "Stopped Recording");
+            MessageListener.messageReceived = "";
             HDCamera.stop();
         }
 
@@ -139,25 +141,26 @@ public class LoomoSpeakService implements TextToSpeech.OnInitListener {
         // saves to /storage/sdcard0/Android/data/de.iteratec.slab.segway.remote.robot/files/movies/ on robot
     }
 
-    public void recordingStatus(){
-        Log.i("RecordingStatus", "Method Called");
-        InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
-
-        if(MessageListener.messageReceived.equals("Start Recording")) {
-            HDCamera.start(); // starts recording (maybe allow sometime between start and stop, b/c it might throw an error)
-            Log.i("RecordingStatus", MessageListener.messageReceived);
-            MessageListener.messageReceived = "";
-        }
-        //try { Thread.sleep(20000); } catch (InterruptedException e) {}  // 20 seconds
-        else if(MessageListener.messageReceived.equals("Stop Recording")) {
-            HDCamera.stop(); // stops recording
-            Log.i("RecordingStatus", MessageListener.messageReceived);
-            MessageListener.messageReceived = "";
-        }
-    }
+//    public void recordingStatus(){
+//        Log.i("RecordingStatus", "Method Called");
+//        //InvisibleVideoRecorder HDCamera = new InvisibleVideoRecorder(this.context);
+//
+//        if(MessageListener.messageReceived.equals("Start Recording")) {
+//            HDCamera.start(); // starts recording (maybe allow sometime between start and stop, b/c it might throw an error)
+//            Log.i("RecordingStatus", MessageListener.messageReceived);
+//            MessageListener.messageReceived = "";
+//        }
+//        //try { Thread.sleep(20000); } catch (InterruptedException e) {}  // 20 seconds
+//        else if(MessageListener.messageReceived.equals("Stop Recording")) {
+//            HDCamera.stop(); // stops recording
+//            Log.i("RecordingStatus", MessageListener.messageReceived);
+//            MessageListener.messageReceived = "";
+//        }
+//    }
 
     private void init() {
 
+        //HDCamera = new InvisibleVideoRecorder(this.context);
         speaker = Speaker.getInstance();
         speaker.bindService(context, new ServiceBinder.BindStateListener() {
             @Override
