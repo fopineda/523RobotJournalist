@@ -31,10 +31,6 @@ import java.util.Random;
 
 import de.iteratec.slab.segway.remote.robot.MainActivity;
 
-/**
- * Created by mss on 22.12.17.
- */
-
 public class LoomoRecognitionService {
 
     private static final String TAG = "LoomoRecognitionService";
@@ -255,6 +251,7 @@ public class LoomoRecognitionService {
                     }
                 }
             }
+
             return false;
         }
 
