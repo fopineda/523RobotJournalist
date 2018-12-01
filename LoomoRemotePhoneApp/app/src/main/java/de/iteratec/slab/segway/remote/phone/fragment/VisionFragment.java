@@ -127,6 +127,7 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
 
                 ResultSet rs = stmt.executeQuery("SELECT * FROM interviewQuestions WHERE interviewID = '" + interviewName + "' AND userID = '" + userName + "'");
 
+//                ConnectionService.getInstance().onStartRecording();
                 getLoomoService().sendSound("Hello, my name is " + userName + " and I'd like to interview you about " + interviewName + ". Is it okay if I ask you some questions?");
 //                questionList.add("Hello, my name is " +userName+ " and I'd like to interview you about " +interviewName+ ". Is it okay if I ask you some questions?");
                 try
@@ -164,7 +165,7 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                     questionList.add(rs.getString(4));
                 }
 
-                questionList.add("Thank you for taking the time to interview with me. Have a great day!");
+                //questionList.add("Thank you for taking the time to interview with me. Have a great day!");
 
                 logMessage = "SQL Succeeded";
 
@@ -180,12 +181,16 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
         protected void onPostExecute(Void result) {
             Log.v("SQLStatus", logMessage);
             if (!isNegative){
+                int countSpeak = 0;
                 for (String question : questionList) {
+                    if(countSpeak == 0) {
+                        ConnectionService.getInstance().onStartRecording();
+                        countSpeak++;
+                    }
                     getLoomoService().sendSound(question);
-                    ConnectionService.getInstance().onStartRecoring();
                     try {
                         int counter = 0;
-                        while(counter < 15){
+                        while(counter < 20){
                             //TimeUnit.SECONDS.sleep(15);
                             TimeUnit.SECONDS.sleep(1);
                             counter++;
@@ -194,7 +199,7 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                                 TimeUnit.SECONDS.sleep(2);
                                 ConnectionService.messageReceived = "";
                                 try {
-                                    ConnectionService.getInstance().onStopRecoring();
+                                    ConnectionService.getInstance().onStopRecording();
                                 }
                                 catch(Exception e) {
                                     e.printStackTrace();
@@ -207,8 +212,19 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                         Log.v("Sleep Time", "Sleep Failed");
                     }
 
-                    ConnectionService.getInstance().onStopRecoring();
+                    //ConnectionService.getInstance().onStopRecording();
+//                    try {
+//                        getLoomoService().sendSound("Hopefully this stops recording");
+//                        TimeUnit.SECONDS.sleep(5);
+//                    }
+//                    catch(Exception e){
+//                        e.printStackTrace();
+//                    }
                 }
+
+                ConnectionService.getInstance().onStopRecording();
+                getLoomoService().sendSound("Thank you for taking the time to interview with me. Have a great day!");
+
             }
         }
 

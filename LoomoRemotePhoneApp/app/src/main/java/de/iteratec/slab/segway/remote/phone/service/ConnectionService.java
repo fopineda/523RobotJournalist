@@ -56,24 +56,26 @@ public class ConnectionService extends Service {
     private void sendStopRecording(){
         try{
             messageConnection.sendMessage(new StringMessage("Stop Recording"));
+            Log.i("RecordStatus", "Sent Stop Recording Message");
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public void onStopRecoring(){
+    public void onStopRecording(){
         sendStopRecording();
     }
 
     private void sendStartRecording(){
         try{
             messageConnection.sendMessage(new StringMessage("Start Recording"));
+            Log.i("RecordStatus", "Sent Start Recording Message");
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public void onStartRecoring(){
+    public void onStartRecording(){
         sendStartRecording();
     }
 
