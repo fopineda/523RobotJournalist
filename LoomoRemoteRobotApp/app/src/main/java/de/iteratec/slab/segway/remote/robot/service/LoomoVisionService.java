@@ -2,16 +2,24 @@ package de.iteratec.slab.segway.remote.robot.service;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.nfc.Tag;
 import android.util.Log;
+import android.view.Surface;
 
+import com.segway.robot.algo.dts.DTSPerson;
+import com.segway.robot.algo.dts.PersonTrackingListener;
 import com.segway.robot.sdk.base.bind.ServiceBinder;
+import com.segway.robot.sdk.base.log.Logger;
 import com.segway.robot.sdk.baseconnectivity.MessageConnection;
 import com.segway.robot.sdk.connectivity.BufferMessage;
+import com.segway.robot.sdk.locomotion.head.Head;
+import com.segway.robot.sdk.vision.DTS;
 import com.segway.robot.sdk.vision.Vision;
 import com.segway.robot.sdk.vision.frame.Frame;
 import com.segway.robot.sdk.vision.stream.StreamType;
 
 import java.io.ByteArrayOutputStream;
+import de.iteratec.slab.segway.remote.robot.CameraUtils.AutoFitDrawableView;
 
 /**
  * Created by mss on 22.12.17.
@@ -22,7 +30,11 @@ public class LoomoVisionService {
     private static final String TAG = "LoomoVisionService";
     private final Context context;
 
-    private Vision vision;
+    public Vision vision;
+    private boolean isVisionBind;
+    public DTS dts;
+    public Surface mDTSSurface = null;
+
 
     public static LoomoVisionService instance;
 
@@ -48,12 +60,20 @@ public class LoomoVisionService {
         this.vision.bindService(this.context, new ServiceBinder.BindStateListener() {
             @Override
             public void onBind() {
-                Log.d(TAG, "Vision service bind successfully");
+                Log.e(TAG, "Vision onBind() called");
+                isVisionBind = true;
+                dts = vision.getDTS();
+                dts.setVideoSource(DTS.VideoSource.SURFACE);
+                dts.start();
+                mDTSSurface = dts.getSurface();
+                dts.setPoseRecognitionEnabled(true);
+//                startTrackingPerson();
             }
 
             @Override
             public void onUnbind(String reason) {
                 Log.d(TAG, "Vision service unbound");
+                isVisionBind = false;
             }
         });
     }
@@ -106,6 +126,38 @@ public class LoomoVisionService {
     public void stopTransferringImageStream() {
         Log.d(TAG, "stopTransferringImageStream called");
         this.vision.stopListenFrame(StreamType.COLOR);
+    }
+
+
+
+    public void startTrackingPerson() {
+        Log.e(TAG, "inside stp");
+        dts.startPersonTracking(null, 15L * 60 * 1000 * 1000, new PersonTrackingListener() {
+
+            @Override
+            public void onPersonTracking(DTSPerson person) {
+                if (person == null) {
+                    Log.e(TAG, "inside the if null :/");
+                    return;
+                }
+//                autoFitDrawableView.drawRect(person.getPoseRecognitionIndex(), person.getDrawingRect());
+                Log.e(TAG, "inside OPT");
+                if (LoomoHeadService.getInstance().isHeadBind) {
+                    Log.e(TAG, "inside isheadbind");
+                    LoomoHeadService.getInstance().headPIDController.updateTarget(person.getTheta(), person.getDrawingRect(), 480);
+                }
+            }
+
+            @Override
+            public void onPersonTrackingResult(DTSPerson person) {
+                Logger.d(TAG, "onPersonTrackingResult() called with: person = [" + person + "]");
+            }
+
+            @Override
+            public void onPersonTrackingError(int errorCode, String message) {
+                Logger.e(TAG, "onPersonTrackingError() called with: errorCode = [" + errorCode + "], message = [" + message + "]");
+            }
+        });
     }
 
     public void disconnect() {

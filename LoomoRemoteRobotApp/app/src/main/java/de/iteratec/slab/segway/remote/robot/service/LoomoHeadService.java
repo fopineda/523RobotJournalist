@@ -3,9 +3,18 @@ package de.iteratec.slab.segway.remote.robot.service;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Surface;
 
+import com.segway.robot.algo.dts.DTSPerson;
+import com.segway.robot.algo.dts.PersonTrackingListener;
 import com.segway.robot.sdk.base.bind.ServiceBinder;
+import com.segway.robot.sdk.base.log.Logger;
 import com.segway.robot.sdk.locomotion.head.Head;
+import com.segway.robot.sdk.vision.DTS;
+
+
+import de.iteratec.slab.segway.remote.robot.CameraUtils.HeadControlHandlerImpl;
+import de.iteratec.slab.segway.remote.robot.CameraUtils.HeadPIDController;
 
 /**
  * Created by abr on 22.12.17.
@@ -18,6 +27,9 @@ public class LoomoHeadService {
     private Head head = null;
     private Context context;
     private Handler timehandler;
+    public boolean isHeadBind;
+
+    public HeadPIDController headPIDController = new HeadPIDController();
 
     public static LoomoHeadService instance;
 
@@ -61,12 +73,19 @@ public class LoomoHeadService {
         head.bindService(context, new ServiceBinder.BindStateListener() {
             @Override
             public void onBind() {
-                Log.d(TAG, "Head bind successful");
+                Log.e(TAG, "Head onBind() called");
+                isHeadBind = true;
+                head.setMode(Head.MODE_ORIENTATION_LOCK);
+                head.setWorldPitch(0.3f);
+                headPIDController.init(new HeadControlHandlerImpl(head));
+                headPIDController.setHeadFollowFactor(1.0f);
+
             }
 
             @Override
             public void onUnbind(String reason) {
                 Log.d(TAG, "Head bind failed");
+                isHeadBind = false;
             }
         });
     }

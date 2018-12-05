@@ -1,5 +1,6 @@
 package de.iteratec.slab.segway.remote.robot.service;
 
+import android.app.Activity;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -12,13 +13,27 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
+import android.widget.Toast;
+
+import com.segway.robot.algo.dts.DTSPerson;
+import com.segway.robot.algo.dts.PersonTrackingListener;
+import com.segway.robot.sdk.base.bind.ServiceBinder;
+import com.segway.robot.sdk.base.log.Logger;
+import com.segway.robot.sdk.locomotion.head.Head;
+import com.segway.robot.sdk.vision.DTS;
+import com.segway.robot.sdk.vision.Vision;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import de.iteratec.slab.segway.remote.robot.CameraUtils.HeadPIDController;
+import de.iteratec.slab.segway.remote.robot.CameraUtils.HeadControlHandlerImpl;
 /**
  * @author Mark
  * @since 6/10/2016
@@ -35,9 +50,19 @@ public class InvisibleVideoRecorder {
 
     private HandlerThread handlerThread;
     private Handler handler;
+    private Vision mVision;
+    private Head mHead;
+    private boolean isVisionBind;
+    private boolean isHeadBind;
+    private DTS dts;
+    private Surface mDTSSurface = null;
+    private HeadPIDController headPIDController = new HeadPIDController();
 
     public InvisibleVideoRecorder(Context context) {
         this.context = context;
+
+//        bindServices();
+
         handlerThread = new HandlerThread("HDCamera");
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
@@ -62,6 +87,7 @@ public class InvisibleVideoRecorder {
 
     }
 
+
     public void start() {
         Log.d(TAG, "start: ");
 
@@ -85,6 +111,43 @@ public class InvisibleVideoRecorder {
             handlerThread.join();
         } catch (InterruptedException e) {
 
+        }
+    }
+
+    // Callback for the different states of the camera
+    private class CameraDeviceStateCallback extends CameraDevice.StateCallback {
+        private final static String TAG = "CamDeviceStateCb";
+
+        @Override
+        public void onClosed(CameraDevice camera) {
+            Log.d(TAG, "onClosed: ");
+            super.onClosed(camera);
+        }
+
+        @Override
+        public void onDisconnected(CameraDevice camera) {
+            Log.d(TAG, "onDisconnected: ");
+        }
+
+        @Override
+        public void onError(CameraDevice camera, int error) {
+            Log.d(TAG, "onError: ");
+        }
+
+        @Override
+        public void onOpened(CameraDevice camera) {
+            Log.d(TAG, "onOpened: ");
+            cameraDevice = camera;
+            try {
+
+                //Arrays.asList(LoomoVisionService.getInstance().mDTSSurface)
+                List<Surface> surfaceList = new ArrayList<>();
+                surfaceList.add(LoomoVisionService.getInstance().mDTSSurface);
+                surfaceList.add(mediaRecorder.getSurface());
+                camera.createCaptureSession(surfaceList, cameraCaptureSessionStateCallback, handler);
+            } catch (CameraAccessException e) {
+                Log.d(TAG, "onOpened: " + e.getMessage());
+            }
         }
     }
 
@@ -121,52 +184,26 @@ public class InvisibleVideoRecorder {
             super.onReady(session);
             try {
                 CaptureRequest.Builder builder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+                builder.addTarget(LoomoVisionService.getInstance().mDTSSurface);
                 builder.addTarget(mediaRecorder.getSurface());
                 CaptureRequest request = builder.build();
                 session.setRepeatingRequest(request, null, handler);
+
+                LoomoVisionService.getInstance().startTrackingPerson();
                 mediaRecorder.start();
+                Log.d(TAG, "after MR.start()");
+
+
             } catch (CameraAccessException e) {
                 Log.d(TAG, "onConfigured: " + e.getMessage());
 
             }
         }
+
         @Override
         public void onSurfacePrepared(CameraCaptureSession session, Surface surface) {
             Log.d(TAG, "onSurfacePrepared: ");
             super.onSurfacePrepared(session, surface);
         }
     }
-
-    // Callback for the different states of the camera
-    private class CameraDeviceStateCallback extends CameraDevice.StateCallback {
-        private final static String TAG = "CamDeviceStateCb";
-
-        @Override
-        public void onClosed(CameraDevice camera) {
-            Log.d(TAG, "onClosed: ");
-            super.onClosed(camera);
-        }
-
-        @Override
-        public void onDisconnected(CameraDevice camera) {
-            Log.d(TAG, "onDisconnected: ");
-        }
-
-        @Override
-        public void onError(CameraDevice camera, int error) {
-            Log.d(TAG, "onError: ");
-        }
-
-        @Override
-        public void onOpened(CameraDevice camera) {
-            Log.d(TAG, "onOpened: ");
-            cameraDevice = camera;
-            try {
-                camera.createCaptureSession(Arrays.asList(mediaRecorder.getSurface()), cameraCaptureSessionStateCallback, handler);
-            } catch (CameraAccessException e) {
-                Log.d(TAG, "onOpened: " + e.getMessage());
-            }
-        }
-    }
-
 }
