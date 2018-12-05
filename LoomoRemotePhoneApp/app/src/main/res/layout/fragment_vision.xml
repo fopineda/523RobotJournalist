@@ -76,6 +76,17 @@
             android:layout_toStartOf="@+id/stream_joy_direction"
             android:text="Start Interview" />
 
+        <TextView
+            android:id="@+id/interviewStatus"
+            android:layout_width="338dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="198dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:text="Interview Status" />
+
 
     </RelativeLayout>
 

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.segway.robot.mobile.sdk.connectivity.StringMessage;
 
@@ -42,12 +44,17 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
 
     public static String userName = "";
     public static String interviewName = "";
+    public TextView interviewStatus;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_vision, container, false);
         imageView = layout.findViewById(R.id.image_stream);
+
+        interviewStatus = layout.findViewById(R.id.interviewStatus);
+        interviewStatus.setBackgroundColor(0xFF808080);
+        interviewStatus.setTextColor(0xFF000000);
 
         joySpeed = layout.findViewById(R.id.stream_joy_speed);
         joyDirection = layout.findViewById(R.id.stream_joy_direction);
@@ -113,8 +120,8 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
 
         String logMessage;
         ArrayList<String> questionList = new ArrayList<String>();
+        ArrayList<Integer> questionLengths = new ArrayList<Integer>();
         Boolean isNegative = false;
-
 
         @Override
         protected Void doInBackground(Void...arg0){
@@ -128,12 +135,12 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                 ResultSet rs = stmt.executeQuery("SELECT * FROM interviewQuestions WHERE interviewID = '" + interviewName + "' AND userID = '" + userName + "'");
 
 //                ConnectionService.getInstance().onStartRecording();
-                getLoomoService().sendSound("Hello, my name is " + userName + " and I'd like to interview you about " + interviewName + ". Is it okay if I ask you some questions?");
+                getLoomoService().sendSound("Hello, my name is " + userName + " and I'd like to interview you about " + interviewName + ". Is it okay if I ask you some questions? Say Okay Loomo, followed by your answer to let me know if you would like to be interviewed");
 //                questionList.add("Hello, my name is " +userName+ " and I'd like to interview you about " +interviewName+ ". Is it okay if I ask you some questions?");
                 try
                 {
                     int counter =0;
-                    while(counter < 40) {
+                    while(counter < 50) {
                         TimeUnit.SECONDS.sleep(1);
                         counter++;
                         Log.i("ConnectionMessage", ConnectionService.messageReceived);
@@ -142,6 +149,9 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                             TimeUnit.SECONDS.sleep(7);
                             ConnectionService.messageReceived = "";
                             isNegative = false;
+                            interviewStatus.setText("Interview Accepted");
+//                            Toast.makeText(getActivity(), "Interview Accepted", Toast.LENGTH_LONG).show();
+
                             break;
                         }
                         else if(ConnectionService.messageReceived.equals("Negative Received")){
@@ -149,6 +159,17 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                             TimeUnit.SECONDS.sleep(5);
                             ConnectionService.messageReceived = "";
                             isNegative = true;
+                            interviewStatus.setText("Interview Rejected");
+//                            Toast.makeText(getActivity(), "Interview Denied", Toast.LENGTH_LONG).show();
+                            break;
+                        }
+                        else if(counter == 50){
+                            getLoomoService().sendSound("That's alright. Thanks anyway and have a great day.");
+                            TimeUnit.SECONDS.sleep(5);
+                            ConnectionService.messageReceived = "";
+                            isNegative = true;
+                            interviewStatus.setText("Response Timed Out");
+//                            Toast.makeText(getActivity(), "Interview Denied", Toast.LENGTH_LONG).show();
                             break;
                         }
                     }
@@ -163,6 +184,7 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                 while(rs.next())
                 {
                     questionList.add(rs.getString(4));
+                    questionLengths.add(rs.getInt(5));
                 }
 
                 //questionList.add("Thank you for taking the time to interview with me. Have a great day!");
@@ -182,6 +204,7 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
             Log.v("SQLStatus", logMessage);
             if (!isNegative){
                 int countSpeak = 0;
+                int questLengthCounter = 0;
                 for (String question : questionList) {
                     if(countSpeak == 0) {
                         ConnectionService.getInstance().onStartRecording();
@@ -190,7 +213,7 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                     getLoomoService().sendSound(question);
                     try {
                         int counter = 0;
-                        while(counter < 20){
+                        while(counter < questionLengths.get(questLengthCounter)){
                             //TimeUnit.SECONDS.sleep(15);
                             TimeUnit.SECONDS.sleep(1);
                             counter++;
@@ -211,6 +234,8 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
                         e.printStackTrace();
                         Log.v("Sleep Time", "Sleep Failed");
                     }
+
+                    questLengthCounter++;
 
                     //ConnectionService.getInstance().onStopRecording();
 //                    try {

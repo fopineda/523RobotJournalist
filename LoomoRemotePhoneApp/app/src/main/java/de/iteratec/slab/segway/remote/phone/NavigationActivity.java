@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import de.iteratec.slab.segway.remote.phone.fragment.RawControlFragment;
+import de.iteratec.slab.segway.remote.phone.fragment.TextToSpeechFragment;
 import de.iteratec.slab.segway.remote.phone.fragment.base.FragmentFactory;
 import de.iteratec.slab.segway.remote.phone.fragment.base.RemoteFragmentInterface;
 import de.iteratec.slab.segway.remote.phone.service.ConnectionCallback;
@@ -51,7 +52,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         // set initial fragment if none is set
         Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
         if (currentFragment == null) {
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, new RawControlFragment()).commit();
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, new TextToSpeechFragment()).commit();
         }
     }
 

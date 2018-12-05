@@ -46,7 +46,7 @@ public class TextToSpeechFragment extends RemoteFragment {
         //String logMessage;
 
         try{
-            new MyTask().execute();
+//            new MyTask().execute();
             //AsyncTask task = new MyTask();//.execute();
             //task.execute();
             //logMessage = "Connection successful";
@@ -67,8 +67,8 @@ public class TextToSpeechFragment extends RemoteFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout =  inflater.inflate(R.layout.fragment_text_to_speech, container, false);
 
-        Button soundTestButton = layout.findViewById(R.id.BeginInterview);
-        soundTestButton.setOnClickListener(mButtonClickListener);
+//        Button soundTestButton = layout.findViewById(R.id.BeginInterview);
+//        soundTestButton.setOnClickListener(mButtonClickListener);
 
         Button loginButton = layout.findViewById(R.id.login);
         loginButton.setOnClickListener(new View.OnClickListener(){
@@ -159,72 +159,72 @@ public class TextToSpeechFragment extends RemoteFragment {
 
 
 
-    private class MyTask extends AsyncTask<Void, Void, Void>{
-
-        String logMessage;
-        ArrayList<String> questionList = new ArrayList<String>();
-
-
-        @Override
-        protected Void doInBackground(Void...arg0){
-
-            try{
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist", "roboj", "robotjournalist");
-
-                Statement stmt = con.createStatement();
-
-                String userName = userIdInput.getText().toString();
-                String interviewID = interviewNumberInput.getText().toString();
-
-                Log.i("UserId", userName);
-                Log.i("InterviewID", interviewID);
-
-                ResultSet rs = stmt.executeQuery("SELECT * FROM interviewQuestions WHERE interviewID = '" + interviewID + "' AND userID = '" + userName + "'");
-                //rs.next();
-
-                //Log.d("mySQLCreationSuccess","successfully connected to database");
-                //logMessage = rs.getString(4);
-                //questionList.add(rs.getString(4));
-                //questionList.add(rs.getString(5));
-                //questionList.add(rs.getString(6));
-
-                while(rs.next())
-                {
-                    questionList.add(rs.getString(4));
-                }
-
-                logMessage = "SQL Succeeded";
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                logMessage = "SQL Fail";
-            }
-
-            return null;
-        }
-
-        public String getLogMessage(){
-            //logMessage = "Got Log Message";
-            return logMessage;
-        }
-
-        @Override
-        protected void onPostExecute(Void result){
-            Log.v("SQLStatus", logMessage);
-            for(String question : questionList) {
-                getLoomoService().sendSound(question);
-                try
-                {
-                    TimeUnit.SECONDS.sleep(3);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                    Log.v("Sleep Time", "Sleep Failed");
-                }
-            }
-        }
-
-    }
+//    private class MyTask extends AsyncTask<Void, Void, Void>{
+//
+//        String logMessage;
+//        ArrayList<String> questionList = new ArrayList<String>();
+//
+//
+//        @Override
+//        protected Void doInBackground(Void...arg0){
+//
+//            try{
+//                Class.forName("com.mysql.jdbc.Driver");
+//                Connection con = DriverManager.getConnection("jdbc:mysql://robotjournalisttest.cr2mefbyc9b2.us-east-1.rds.amazonaws.com:3306/robotjournalist", "roboj", "robotjournalist");
+//
+//                Statement stmt = con.createStatement();
+//
+//                String userName = userIdInput.getText().toString();
+//                String interviewID = interviewNumberInput.getText().toString();
+//
+//                Log.i("UserId", userName);
+//                Log.i("InterviewID", interviewID);
+//
+//                ResultSet rs = stmt.executeQuery("SELECT * FROM interviewQuestions WHERE interviewID = '" + interviewID + "' AND userID = '" + userName + "'");
+//                //rs.next();
+//
+//                //Log.d("mySQLCreationSuccess","successfully connected to database");
+//                //logMessage = rs.getString(4);
+//                //questionList.add(rs.getString(4));
+//                //questionList.add(rs.getString(5));
+//                //questionList.add(rs.getString(6));
+//
+//                while(rs.next())
+//                {
+//                    questionList.add(rs.getString(4));
+//                }
+//
+//                logMessage = "SQL Succeeded";
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                logMessage = "SQL Fail";
+//            }
+//
+//            return null;
+//        }
+//
+//        public String getLogMessage(){
+//            //logMessage = "Got Log Message";
+//            return logMessage;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result){
+//            Log.v("SQLStatus", logMessage);
+//            for(String question : questionList) {
+//                getLoomoService().sendSound(question);
+//                try
+//                {
+//                    TimeUnit.SECONDS.sleep(3);
+//                }
+//                catch (InterruptedException e)
+//                {
+//                    e.printStackTrace();
+//                    Log.v("Sleep Time", "Sleep Failed");
+//                }
+//            }
+//        }
+//
+//    }
 }
