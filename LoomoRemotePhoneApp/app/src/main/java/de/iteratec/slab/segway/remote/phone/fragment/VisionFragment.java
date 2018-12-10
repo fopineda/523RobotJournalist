@@ -249,7 +249,7 @@ public class VisionFragment extends JoyStickControllerFragment implements ByteMe
 
                 ConnectionService.getInstance().onStopRecording();
                 getLoomoService().sendSound("Thank you for taking the time to interview with me. Have a great day!");
-
+                interviewStatus.setText("Interview Finished");
             }
         }
 
